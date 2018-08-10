@@ -8,10 +8,9 @@ import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredential
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 
 public class Authorization_3 {
-	private static final String clientId = "4e553333356e4435a1fcfc3a2ef30562";
-	  private static final String clientSecret = "a3c64eed7af748a3b771059c6f219cc1";
-	  private static final String refreshToken = "b0KuPuLw77Z0hQhCsK-GTHoEx_kethtn357V7iqwEpCTIsLgqbBC_vQBTGC6M5rINl0FrqHK-D3cbOsMOlfyVKuQPvpyGcLcxAoLOTpYXc28nVwB7iBq2oKj9G9lHkFOUKn";
-
+	private static final String clientId = "";
+	  private static final String clientSecret = "";
+	  private static final String refreshToken = "";
 	  private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
 	          .setClientId(clientId)
 	          .setClientSecret(clientSecret)

@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -14,11 +17,15 @@ import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.model_objects.specification.Paging;
+import com.wrapper.spotify.model_objects.specification.Playlist;
 import com.wrapper.spotify.model_objects.specification.PlaylistSimplified;
+import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
+import com.wrapper.spotify.requests.data.playlists.GetPlaylistRequest;
+import com.wrapper.spotify.requests.data.playlists.GetPlaylistsTracksRequest;
 
 
 public class SpotifyRetriever {
@@ -28,8 +35,10 @@ public class SpotifyRetriever {
 	private static final String userID = "";
 	private static AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest;
 	private static GetListOfCurrentUsersPlaylistsRequest getListOfCurrentUsersPlaylistsRequest;
-	//private static final String code = "AQBLE84qX_9b4Vvl2vgKcu60tvh_7CoQ00bjNTMo60KHk7qAE9LX-tPp0kYpyppDRQEC0Lr65gi5HKIr5InacmZs--rxGjqW97Mnuq_-1ynkjZ0R7wCVRtaswz3whSPQ6rfZSaJmY9Dj4TPBqOrlno_ds2uguGMtFRlSH8WfUhBRos0NLXMKjNwTN0ynY0kvuxJYy2tbt2I8bkzHiw1tN1wUXXuhrG4KvlSRpM8uXQEa7XQNgtqw_931RIqFRegJUkkns0VrVuLpOQ";
-	private static ArrayList<PlaylistSimplified> results = new ArrayList<PlaylistSimplified>();
+	private static final String code ="";
+	private static ArrayList<String> playlistIds = new ArrayList<String>();
+	
+	
 	//Create the spotifyApi object
 	private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
 			.setClientId(clientId)
@@ -106,11 +115,7 @@ public class SpotifyRetriever {
 		    	
 		      final Paging<PlaylistSimplified> playlistSimplifiedPaging = getListOfCurrentUsersPlaylistsRequest.execute();
 
-		      //TODO: Why can't I get the items in the playListSimlifiedPaging?
 		      System.out.println("Total: " + playlistSimplifiedPaging.getTotal());
-		  	
-		      
-		      
 		      PrintWriter pw = new PrintWriter(new FileOutputStream("results"));
 
 		      for (PlaylistSimplified s: playlistSimplifiedPaging.getItems()) {
@@ -125,12 +130,55 @@ public class SpotifyRetriever {
 		    	getListOfUsersPlaylists_Sync();
 		    }
 		  }
-	
+	  
+
+	  
+	  public static void getPlaylistsTracks_Sync() {
+	       int i = 1;
+		  for (String id:playlistIds) {
+			  final GetPlaylistsTracksRequest getPlaylistsTracksRequest = spotifyApi
+			          .getPlaylistsTracks(userID, id)
+			          .offset(0)
+			          .build();
+			    try {
+			       final Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsTracksRequest.execute();
+			      PrintWriter pw = new PrintWriter(new FileOutputStream("trackResults"+i));
+
+			      for (PlaylistTrack s: playlistTrackPaging.getItems()) {
+			    	  pw.println(s.getTrack().getName());
+			      }
+			      pw.close();
+			      System.out.println("Total: " + playlistTrackPaging.getTotal());
+			      i++;
+			    } catch (IOException | SpotifyWebApiException e) {
+			      System.out.println("Error: " + e.getMessage());
+			    }
+			  }
+	  }
+		public static void getPlaylistIDs() {
+			BufferedReader br = null;
+			try {
+				br = new BufferedReader(new FileReader("C:\\Projects\\Workspaces\\SpotifyPlaylistMigration\\results"));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			String i = "";
+			try {
+				while ((i=br.readLine())!=null) {
+					playlistIds.add(i);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	public static void main(String args[]) {
 //		authorizationCodeUri_Sync();
+		getPlaylistIDs();
 		authorizationCode_Sync();
 //		authorizationCodeRefresh_Sync();
-		getListOfUsersPlaylists_Sync();
+//		getListOfUsersPlaylists_Sync();
+		getPlaylistsTracks_Sync();
 		
 	}
 }

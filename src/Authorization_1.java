@@ -14,8 +14,8 @@ import com.wrapper.spotify.requests.authorization.authorization_code.Authorizati
 import com.wrapper.spotify.requests.data.playlists.GetListOfCurrentUsersPlaylistsRequest;
 
 public class Authorization_1 {
-	private static final String clientId = "4e553333356e4435a1fcfc3a2ef30562";
-	private static final String clientSecret = "a3c64eed7af748a3b771059c6f219cc1";
+	private static final String clientId = "";
+	private static final String clientSecret = "";
 	private static final URI redirectUri = SpotifyHttpManager.makeUri("https://api.spotify.com/v1/users");
 	
 	public static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
