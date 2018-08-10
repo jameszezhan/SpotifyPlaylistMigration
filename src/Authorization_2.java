@@ -20,12 +20,12 @@ public class Authorization_2 extends Authorization_1{
 	
 	// variables
 	
-	private static final String clientId = "4e553333356e4435a1fcfc3a2ef30562";
-	private static final String clientSecret = "a3c64eed7af748a3b771059c6f219cc1";
+	private static final String clientId = "";
+	private static final String clientSecret = "";
 	private static final URI redirectUri = SpotifyHttpManager.makeUri("https://api.spotify.com/v1/users");
-	private static final String userID = "12184443487";
+	private static final String userID = "";
 	
-	private static String code = "AQBYcRJMk6VIMK12jpnevSFgtkiBsk9yWvaP3sfyj69DGTDeV2udoccTfqQEKK-UukbBy60Qa2Uusd8Fh2MmmYLQE9hg6vxo9AjbJa35MxDPatpR4KIgjx28sHNEhd5HI5Mt0CeAHAfmBQLjDzQjVYsjavRE8g9ekdWN9p_Fp7-5Bdi-iSoSosUVnOnyIU1VtcnZhlCRX6xvf4pBM8hohce3N6ZIxjfpmvyA_Pn1lNU3o5AJLu1bCpd0vYKr4P6wKKImfUxAlWdYKg";
+	private static String code = "";
 	
 	private static AuthorizationCodeRequest authorizationCodeRequest;
 	private static AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest;
